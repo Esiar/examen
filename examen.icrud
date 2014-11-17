@@ -1,0 +1,10 @@
+package examen.icrud;
+
+import examen.dto.Examen;
+import java.util.List;
+
+public interface Icrud<T> {
+  public void create(T e);
+  List<Examen> readAll();
+  List<Examen> find(String ca); 
+}
