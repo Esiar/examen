@@ -61,6 +61,7 @@ public class ExamenView extends javax.swing.JDialog {
     }
   
   //Busqueda, solo colocaré el código de buscarxCarrera() ya que es casi lo mismo para los demás
+  
   private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {                                          
     if (cmbBusqueda.getSelectedItem().equals("Curso")){
       buscarxCurso();
@@ -78,7 +79,7 @@ public class ExamenView extends javax.swing.JDialog {
   
   
   ExamenBll obj=new ExamenBll();
-  Examen e=null;
+  Examen ex=null;
   List<Examen> exa=new ArrayList();
     
   private void limpiar() {
@@ -92,16 +93,16 @@ public class ExamenView extends javax.swing.JDialog {
   }
 
   private void agregar() {
-      e=new Examen();
-      e.setCodigo(txtCodigo.getText());
-      e.setNombre(txtNombre.getText());
-      e.setCurso(cmbCurso.getSelectedItem().toString());
-      e.setCiclo(cmbCiclo.getSelectedItem().toString());
-      e.setCarrera(cmbCarrera.getSelectedItem().toString());
-      e.setCreditos(Integer.parseInt(cmbCreditos.getSelectedItem().toString()));
+      ex=new Examen();
+      ex.setCodigo(txtCodigo.getText());
+      ex.setNombre(txtNombre.getText());
+      ex.setCurso(cmbCurso.getSelectedItem().toString());
+      ex.setCiclo(cmbCiclo.getSelectedItem().toString());
+      ex.setCarrera(cmbCarrera.getSelectedItem().toString());
+      ex.setCreditos(Integer.parseInt(cmbCreditos.getSelectedItem().toString()));
       try {
-          obj.eRegistrar(e);// graba alumno
-          txtCodigo.setText(e.getCodigo());
+          obj.eRegistrar(ex);// graba alumno
+          txtCodigo.setText(ex.getCodigo());
           JOptionPane.showMessageDialog(this, "Alumno registrado con exito");
           limpiar();
       } catch (Exception e) {
@@ -115,8 +116,8 @@ public class ExamenView extends javax.swing.JDialog {
       if (exa != null) {
           DefaultTableModel model = (DefaultTableModel) tblExamen.getModel();
           model.setRowCount(0);
-          for (Examen exa : obj.eListar()) {
-              Object[] rowdata = {exa.getCodigo(), exa.getNombre(), exa.getCurso(),exa.getCiclo(),exa.getCarrera(),exa.getCreditos()};
+          for (Examen ex : exa) {
+              Object[] rowdata = {ex.getCodigo(), ex.getNombre(), ex.getCurso(),ex.getCiclo(),ex.getCarrera(),ex.getCreditos()};
               model.addRow(rowdata);
           }
       } else {
