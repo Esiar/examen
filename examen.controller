@@ -1,0 +1,25 @@
+package examen.servicio;
+
+import examen.dao.ExamenDao;
+import examen.dto.Examen;
+import java.util.List;
+
+public class ExamenBll {
+  private ExamenDao dao;
+
+  public ExamenBll() {
+    dao=new ExamenDao();
+  }
+
+  public void eRegistrar(Examen e){
+    dao.create(e);
+  }
+
+  public List<Examen> eListar(){
+    return dao.readAll();
+  }
+
+  public List<Examen> eBuscarxCarrera(String ca){
+    return dao.find(ca);
+  }
+}
