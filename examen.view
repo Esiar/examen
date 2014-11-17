@@ -1,0 +1,126 @@
+package examen.view;
+
+import examen.dto.Examen;
+import examen.servicio.ExamenBll;
+import java.util.ArrayList;
+import java.util.List;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
+public class ExamenView extends javax.swing.JDialog {
+
+  public ExamenView(java.awt.Frame parent, boolean modal) {
+    super(parent, modal);
+    initComponents();
+  }
+  
+  //Boton para nuevo registro
+  private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {                                         
+    limpiar();
+  }                                        
+  
+  //Boton para registrar
+  private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {                                             
+    agregar();
+  }                                            
+  
+  //Cargar form
+  private void formWindowOpened(java.awt.event.WindowEvent evt) {                                  
+    cmb1.setVisible(false);
+    cmb2.setVisible(false);
+    cmb3.setVisible(false);
+    cmb4.setVisible(false);
+  }
+  
+  //Seleccionar el tipo de busqueda
+  private void cmbBusquedaActionPerformed(java.awt.event.ActionEvent evt) {                                            
+        if (cmbBusqueda.getSelectedItem().equals("Curso")){
+            cmb1.setVisible(true);
+            cmb2.setVisible(false);
+            cmb3.setVisible(false);
+            cmb4.setVisible(false);
+        }
+        if(cmbBusqueda.getSelectedItem().equals("Ciclo")){
+            cmb2.setVisible(true);
+            cmb1.setVisible(false);
+            cmb3.setVisible(false);
+            cmb4.setVisible(false);
+        }
+        if (cmbBusqueda.getSelectedItem().equals("Carrera")){
+            cmb3.setVisible(true);
+            cmb1.setVisible(false);
+            cmb2.setVisible(false);
+            cmb4.setVisible(false);
+        }            
+        if(cmbBusqueda.getSelectedItem().equals("Creditos")){
+            cmb4.setVisible(true);
+            cmb1.setVisible(false);
+            cmb2.setVisible(false);
+            cmb3.setVisible(false);
+        }
+    }
+  
+  //Busqueda, solo colocaré el código de buscarxCarrera() ya que es casi lo mismo para los demás
+  private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    if (cmbBusqueda.getSelectedItem().equals("Curso")){
+      buscarxCurso();
+    }
+    if(cmbBusqueda.getSelectedItem().equals("Ciclo")){
+      buscarxCiclo();
+    }
+    if (cmbBusqueda.getSelectedItem().equals("Carrera")){
+      buscarxCarrera();
+    }            
+    if(cmbBusqueda.getSelectedItem().equals("Creditos")){
+      buscarxCreditos();
+    }
+  }
+  
+  
+  ExamenBll obj=new ExamenBll();
+  Examen e=null;
+  List<Examen> exa=new ArrayList();
+    
+  private void limpiar() {
+      txtCodigo.setText("");
+      txtNombre.setText("");
+      cmbCurso.setSelectedItem("Java");
+      cmbCiclo.setSelectedItem("2012 - I");
+      cmbCarrera.setSelectedItem("Derecho");
+      cmbCreditos.setSelectedItem("1");
+      txtCodigo.requestFocus();
+  }
+
+  private void agregar() {
+      e=new Examen();
+      e.setCodigo(txtCodigo.getText());
+      e.setNombre(txtNombre.getText());
+      e.setCurso(cmbCurso.getSelectedItem().toString());
+      e.setCiclo(cmbCiclo.getSelectedItem().toString());
+      e.setCarrera(cmbCarrera.getSelectedItem().toString());
+      e.setCreditos(Integer.parseInt(cmbCreditos.getSelectedItem().toString()));
+      try {
+          obj.eRegistrar(e);// graba alumno
+          txtCodigo.setText(e.getCodigo());
+          JOptionPane.showMessageDialog(this, "Alumno registrado con exito");
+          limpiar();
+      } catch (Exception e) {
+          JOptionPane.showMessageDialog(this, e.getMessage());
+      }
+  }
+  
+  private void buscarxCarrera() {
+      exa=obj.eBuscarxCarrera(cmbCarrera.getSelectedItem().toString());
+      
+      if (exa != null) {
+          DefaultTableModel model = (DefaultTableModel) tblExamen.getModel();
+          model.setRowCount(0);
+          for (Examen exa : obj.eListar()) {
+              Object[] rowdata = {exa.getCodigo(), exa.getNombre(), exa.getCurso(),exa.getCiclo(),exa.getCarrera(),exa.getCreditos()};
+              model.addRow(rowdata);
+          }
+      } else {
+          JOptionPane.showMessageDialog(this, "Alumno no existe");
+      }
+  }
+}
