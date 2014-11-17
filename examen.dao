@@ -1,0 +1,38 @@
+package examen.dao;
+
+import examen.dto.Examen;
+import examen.icrud.Icrud;
+import java.util.ArrayList;
+import java.util.List;
+
+public class ExamenDao implements Icrud<Examen>{
+
+  private List<Examen> lista= new ArrayList();
+  private int cont;
+  
+  public ExamenDao() {
+    cont=0;
+  }
+
+  @Override
+  public void create(Examen e) {
+    cont++;
+    e.setCodigo("A00"+cont);
+    lista.add(e);
+  }
+
+  @Override
+  public List<Examen> readAll() {
+    return lista;
+  }
+
+  @Override
+  public List<Examen> find(String ca) {
+    for(Examen e:lista){
+      if(e.getCurso().equals(ca)){
+        lista.add(e);
+      }
+    }
+    return lista;
+  }
+}
