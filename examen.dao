@@ -29,7 +29,7 @@ public class ExamenDao implements Icrud<Examen>{
   @Override
   public List<Examen> find(String ca) {
     for(Examen e:lista){
-      if(e.getCurso().equals(ca)){
+      if(e.getCarrera().equals(ca)){
         lista.add(e);
       }
     }
