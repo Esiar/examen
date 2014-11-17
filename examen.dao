@@ -28,11 +28,12 @@ public class ExamenDao implements Icrud<Examen>{
 
   @Override
   public List<Examen> find(String ca) {
+    List<Examen> lstExamen=new ArrayList();
     for(Examen e:lista){
       if(e.getCarrera().equals(ca)){
-        lista.add(e);
+        lstExamen.add(e);
       }
     }
-    return lista;
+    return lstExamen;
   }
 }
